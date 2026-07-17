@@ -4,7 +4,7 @@ import Live from "./components/001live";
 
 export default function App() {
   return (
-    <BrowserRouter basename='/vit-room-finder'>
+    <BrowserRouter basename='/project-vit-room-finder'>
       <Routes>
         <Route path="/" element={<Live />} />
       </Routes>
