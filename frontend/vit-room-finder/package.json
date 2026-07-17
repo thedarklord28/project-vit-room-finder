@@ -2,12 +2,15 @@
   "name": "vit-room-finder",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://thedarklord28.github.io/project-vit-room-finder/",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build", 
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^19.2.7",

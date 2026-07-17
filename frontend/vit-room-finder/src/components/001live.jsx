@@ -89,8 +89,8 @@ export default function Live() {
                 <h1>Live Room View</h1>
                 <h1>{curDay}</h1>
                 <h1>{curTime}</h1>
-                <h1>{activeTheorySlot}</h1>
-                <h1>{activeLabSlot}</h1>
+                <h1>{activeTheorySlot?activeTheorySlot:'no theory slot'}</h1>
+                <h1>{activeLabSlot?activeLabSlot:'no lab slot'}</h1>
             </div>
             <div>
                 {ab1 && ab1['theory'].map((room)=>{
