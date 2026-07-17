@@ -13,45 +13,52 @@ export default function Live() {
     //test var rem later
     const [ab1, setAb1]=useState(null);
 
+    useEffect(() => {
+        const updateClock = () => {
+            const now = new Date();
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            
+            const currentDay = days[now.getDay()];
+            const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            
+            setCurDay(currentDay);
+            setCurTime(currentTimeStr);
+        };
+
+        updateClock();
+
+        const timerId = setInterval(updateClock, 1000);
+
+        return () => clearInterval(timerId);
+    }, []);
+
 
     useEffect(() => {
-        const now = new Date();
-        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        const currentDay='Monday';
-        //const currentDay = days[now.getDay()];
-        //const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-        const currentTimeStr = "08:30";
-        if (currentDay)
-            setCurDay(currentDay);
-        if (currentTimeStr)
-            setCurTime(currentTimeStr);
 
-        if (currentDay && currentTimeStr) {
-            const todaysSchedule = slotData[currentDay] || { theory: [], lab: [] };
-            const currTheory = todaysSchedule.theory.find(t => currentTimeStr >= t.start && currentTimeStr <= t.end);
-            const currLab = todaysSchedule.lab.find(l => currentTimeStr >= l.start && currentTimeStr <= l.end);
+        const allTheoryRooms=[...new Set(classData.filter(item=>item.SLOT && !item.SLOT.includes('L')).map(item => String(item.VENUE) || ""))].sort()
+        const allLabRooms=[...new Set(classData.filter(item=>item.SLOT && item.SLOT.includes('L')).map(item => String(item.VENUE) || ""))].sort()
+
+        if (curDay && curTime) {
+            const todaysSchedule = slotData[curDay] || { theory: [], lab: [] };
+            const currTheory = todaysSchedule.theory.find(t => curTime >= t.start && curTime <= t.end);
+            const currLab = todaysSchedule.lab.find(l => curTime >= l.start && curTime <= l.end);
             const currTheorySlot = currTheory ? currTheory.slot : null;
             const currLabSlot = currLab ? currLab.slot : null;
 
-            const freeRoomsSlots = classData.filter(item => {
+            const occupiedRoomsSlots = classData.filter(item => {
                 const itemSlots = item.SLOT.split('+').map(s => s.trim());
                 const isTheoryOccupied = currTheorySlot && itemSlots.includes(currTheorySlot);
                 const isLabOccupied = currLabSlot && itemSlots.includes(currLabSlot);
 
-                return !(isTheoryOccupied || isLabOccupied);
+                return (isTheoryOccupied || isLabOccupied);
 
             });
 
-            const freeTheorySlots = freeRoomsSlots.filter(item => {
-                return !(item.SLOT.includes('L'))
-            })
+            const occupiedTheoryRooms=[...new Set(occupiedRoomsSlots.filter(item=>!item.SLOT.includes('L')).map(item => String(item.VENUE) || ""))].sort()
+            const occupiedLabRooms=[...new Set(occupiedRoomsSlots.filter(item=>item.SLOT.includes('L')).map(item => String(item.VENUE) || ""))].sort()
 
-            const freeLabSlots = freeRoomsSlots.filter(item => {
-                return (item.SLOT.includes('L'))
-            })
-
-            const freeTheoryRooms = [...new Set(freeTheorySlots.map(item => String(item.VENUE) || ""))].sort()
-            const freeLabRooms = [...new Set(freeLabSlots.map(item => String(item.VENUE) || ""))].sort()
+            const freeTheoryRooms = allTheoryRooms.filter(room=>!occupiedTheoryRooms.includes(room))
+            const freeLabRooms = allLabRooms.filter(room=>!occupiedLabRooms.includes(room))
 
             
 
@@ -74,7 +81,7 @@ export default function Live() {
         }
 
 
-    },[])
+    },[curDay,curTime])
 
     return (
         <div className='w-screen h-screen flex flex-col justify-between'>
