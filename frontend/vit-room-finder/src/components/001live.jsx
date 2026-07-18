@@ -22,6 +22,7 @@ export default function Live() {
             const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
             //const currentTimeStr = '08:30';
             setCurDay(currentDay);
+            //setCurDay('Friday');
             setCurTime(currentTimeStr);
         };
 
@@ -90,7 +91,7 @@ export default function Live() {
 
                 <div className='flex items-center gap-2'>
                     <div className='flex gap-2 tracking-tight leading-none text-2xl'>
-                        <h1 className>{curDay}</h1>
+                        <h1>{curDay}</h1>
                         <h1>{curTime}</h1>
                     </div>
 

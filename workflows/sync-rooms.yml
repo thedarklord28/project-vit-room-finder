@@ -1,0 +1,31 @@
+name: Sync rooms.json from Supabase
+
+on:
+  schedule:
+    - cron: '30 20 * * *'   # 2:00 AM IST daily (cron runs in UTC)
+  workflow_dispatch:         # lets you trigger it manually too
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm install @supabase/supabase-js
+
+      - run: node generate-rooms-json.mjs
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
+      - name: Commit updated rooms.json if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/rooms.json
+          git diff --cached --quiet || git commit -m "chore: nightly rooms.json sync"
+          git push
