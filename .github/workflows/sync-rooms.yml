@@ -5,6 +5,9 @@ on:
     - cron: '30 20 * * *'   # 2:00 AM IST daily (cron runs in UTC)
   workflow_dispatch:         # lets you trigger it manually too
 
+permissions:
+  contents: write           # needed so the bot can push the commit below
+
 jobs:
   sync:
     runs-on: ubuntu-latest
