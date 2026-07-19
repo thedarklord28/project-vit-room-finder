@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import classData from "../../rawdata/mockffcs.json"
+import classData from "../../rawdata/rooms.json"
 import slotData from "../../rawdata/slotTimings.json"
 
 export default function Live() {
@@ -36,8 +36,8 @@ export default function Live() {
 
     useEffect(() => {
 
-        const allTheoryRooms = [...new Set(classData.filter(item => item.SLOT && !item.SLOT.includes('L')).map(item => String(item.VENUE) || ""))].sort()
-        const allLabRooms = [...new Set(classData.filter(item => item.SLOT && item.SLOT.includes('L')).map(item => String(item.VENUE) || ""))].sort()
+        const allTheoryRooms = [...new Set(classData.rooms.filter(item => item.SLOT && !item.SLOT.includes('L')).map(item => String(item.VENUE) || ""))].sort()
+        const allLabRooms = [...new Set(classData.rooms.filter(item => item.SLOT && item.SLOT.includes('L')).map(item => String(item.VENUE) || ""))].sort()
 
         if (curDay && curTime) {
             const todaysSchedule = slotData[curDay] || { theory: [], lab: [] };
@@ -46,7 +46,7 @@ export default function Live() {
             const currTheorySlot = currTheory ? currTheory.slot : null;
             const currLabSlot = currLab ? currLab.slot : null;
 
-            const occupiedRoomsSlots = classData.filter(item => {
+            const occupiedRoomsSlots = classData.rooms.filter(item => {
                 const itemSlots = item.SLOT.split('+').map(s => s.trim());
                 const isTheoryOccupied = currTheorySlot && itemSlots.includes(currTheorySlot);
                 const isLabOccupied = currLabSlot && itemSlots.includes(currLabSlot);
