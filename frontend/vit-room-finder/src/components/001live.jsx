@@ -5,11 +5,13 @@ import slotData from "../../rawdata/slotTimings.json"
 export default function Live() {
     const [activeTheorySlot, setActiveTheorySlot] = useState(null);
     const [activeLabSlot, setActiveLabSlot] = useState(null);
-    const [freeTheory, setFreeTheory] = useState(null);
-    const [freeLab, setFreeLab] = useState(null);
-    const [freeByBlock, setFreeByBlock] = useState({});
+
     const [curDay, setCurDay] = useState('');
     const [curTime, setCurTime] = useState('');
+    const [allFreeRooms, setAllFreeRooms] = useState(null);
+    const [freeTheoryRooms, setFreeTheoryRooms] = useState(null);
+    const [freeLabRooms, setFreeLabRooms] = useState(null);
+
     //test var rem later
     const [ab1, setAb1] = useState(null);
 
@@ -36,9 +38,6 @@ export default function Live() {
 
     useEffect(() => {
 
-        const allTheoryRooms = [...new Set(classData.rooms.filter(item => item.SLOT && !item.SLOT.includes('L')).map(item => String(item.VENUE) || ""))].sort()
-        const allLabRooms = [...new Set(classData.rooms.filter(item => item.SLOT && item.SLOT.includes('L')).map(item => String(item.VENUE) || ""))].sort()
-
         if (curDay && curTime) {
             const todaysSchedule = slotData[curDay] || { theory: [], lab: [] };
             const currTheory = todaysSchedule.theory.find(t => curTime >= t.start && curTime <= t.end);
@@ -46,42 +45,21 @@ export default function Live() {
             const currTheorySlot = currTheory ? currTheory.slot : null;
             const currLabSlot = currLab ? currLab.slot : null;
 
-            const occupiedRoomsSlots = classData.rooms.filter(item => {
-                const itemSlots = item.SLOT.split('+').map(s => s.trim());
-                const isTheoryOccupied = currTheorySlot && itemSlots.includes(currTheorySlot);
-                const isLabOccupied = currLabSlot && itemSlots.includes(currLabSlot);
-
-                return (isTheoryOccupied || isLabOccupied);
-
-            });
-
-            const occupiedTheoryRooms = [...new Set(occupiedRoomsSlots.filter(item => !item.SLOT.includes('L')).map(item => String(item.VENUE) || ""))].sort()
-            const occupiedLabRooms = [...new Set(occupiedRoomsSlots.filter(item => item.SLOT.includes('L')).map(item => String(item.VENUE) || ""))].sort()
-
-            const freeTheoryRooms = allTheoryRooms.filter(room => !occupiedTheoryRooms.includes(room))
-            const freeLabRooms = allLabRooms.filter(room => !occupiedLabRooms.includes(room))
+            const freeRooms = Object.entries(classData.rooms)
+                .filter(([venue, details]) => {
+                    const isOccupied = details.occupied_slots.some(booking => {
+                        const slotParts = booking.slot.split('+').map(s => s.trim());
+                        return slotParts.includes(currTheorySlot) || slotParts.includes(currLabSlot);
+                    })
+                    return !isOccupied
+                })
 
 
-
-            const blocks = ['AB1', 'AB2', 'AB3', 'AB4', 'AB5', 'ADB', 'MAB3', 'MAB4'];
-            const blocksMapping = {};
-
-            blocks.forEach(block => {
-                blocksMapping[block] = {
-                    theory: freeTheoryRooms.filter(room => room && room.startsWith(block)),
-                    lab: freeLabRooms.filter(room => room && room.startsWith(block))
-                }
-            })
 
             setActiveTheorySlot(currTheorySlot);
             setActiveLabSlot(currLabSlot);
-            setFreeTheory(freeTheoryRooms);
-            setFreeLab(freeLabRooms);
-            setFreeByBlock(blocksMapping);
-            setAb1(blocksMapping['AB1']);
+            setAllFreeRooms(freeRooms)
         }
-
-
     }, [curDay, curTime])
 
     return (
@@ -96,7 +74,7 @@ export default function Live() {
                     </div>
 
                     <div className="h-8 w-[2px] bg-gray-900/50" />
-                    
+
                     <div className='text-right text-sm leading-tight items-center'>
                         <h1>{`Theory Slot: ${activeTheorySlot ? activeTheorySlot : 'None'}`}</h1>
                         <h1>{`Lab Slot: ${activeLabSlot ? activeLabSlot : 'None'}`}</h1>
@@ -107,9 +85,9 @@ export default function Live() {
             <div className="w-full h-[1px] bg-gray-900/20 mb-3" />
 
             <div>
-                {ab1 && ab1['theory'].map((room) => {
+                {allFreeRooms && allFreeRooms.map(([venue, details]) => {
                     return (
-                        <p key={room}>{room}</p>
+                        <p key={venue}>{venue}</p>
                     )
                 })}
             </div>
