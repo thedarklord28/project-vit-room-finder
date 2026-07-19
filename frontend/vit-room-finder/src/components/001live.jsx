@@ -77,13 +77,13 @@ export default function Live() {
             <div className='w-full flex flex-shrink-0 mx-auto max-w-7xl p-6 py-5 gap-3 justify-between items-center'>
                 <h1 className='text-xl px-10'>RoomFree</h1>
 
-                <div className='flex items-center gap-2'>
+                <div className='flex flex-wrap items-center gap-2'>
                     <div className='flex gap-2 tracking-tight leading-none text-2xl'>
                         <h1>{curDay}</h1>
                         <h1>{curTime}</h1>
                     </div>
 
-                    <div className="h-8 w-[2px] bg-gray-900/50" />
+                    <div className="hidden sm:block h-8 w-[2px] bg-gray-900/30" />
 
                     <div className='text-right text-sm leading-tight items-center'>
                         <h1>{`Theory Slot: ${activeTheorySlot ? activeTheorySlot : 'None'}`}</h1>
