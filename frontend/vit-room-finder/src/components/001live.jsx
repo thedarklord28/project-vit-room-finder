@@ -108,7 +108,7 @@ export default function Live() {
                                     {
                                         rooms.map(room => {
                                             return (
-                                                <div className='bg-gray-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                <div className='bg-[#93C572] p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
                                                     <p key={room}>{room}</p>
                                                 </div>
                                             )
