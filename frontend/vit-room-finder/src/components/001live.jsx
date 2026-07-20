@@ -66,8 +66,13 @@ export default function Live() {
     const freeByBlock = (allFreeRooms || []).reduce((acc, [venue, details]) => {
         const block = details.block;
         if (!block) return acc;
-        if (!acc[block]) acc[block] = [];
-        acc[block].push(venue);
+
+        if (!acc[block]) acc[block] = { 'theory': [], 'lab': [] };
+
+        if (details.occupied_slots[0].slot.includes('L'))
+            acc[block].lab.push(venue);
+        else
+            acc[block].theory.push(venue);
         return acc;
     }, {})
 
@@ -97,31 +102,66 @@ export default function Live() {
             <div className='w-full flex-1 overflow-y-auto px-6 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
                 <div className='max-w-7xl mx-auto w-full'>
                     {BLOCKS.map(block => {
-                        const rooms = freeByBlock[block] || [];
+                        const blockData = freeByBlock[block] || { theory: [], lab: [] };
+                        const theoryRooms = blockData.theory;
+                        const labRooms = blockData.lab;
+                        const totalFreeCount = theoryRooms.length + labRooms.length;
+
                         return (
                             <div key={block} className='w-full'>
                                 <div className='flex gap-2 items-center justify-between mb-4 px-2'>
                                     <h1 className='text-xl'>{block}</h1>
-                                    <p>{rooms.length} free</p>
+                                    <p>{theoryRooms.length + labRooms.length} free</p>
                                 </div>
-                                <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-3 mb-4 w-full">
-                                    {
-                                        rooms.map(room => {
-                                            return (
-                                                <div className='bg-[#93C572] p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
-                                                    <p key={room}>{room}</p>
+                                <div>
+                                    <div>
+                                        <h1 className='text-l mb-2'>Theory</h1>
+                                        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-3 mb-4 w-full">
+                                            {theoryRooms.length === 0 ? (
+                                                <div className='bg-red-300 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                    <p>None</p>
                                                 </div>
-                                            )
+                                            ) :
+                                                (theoryRooms.map(theory => {
+                                                    return (
+                                                        <div className='bg-[#93C572] p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                            <p key={theory}>{theory}</p>
+                                                        </div>
+                                                    )
 
-                                        }
-                                        )
-                                    }
+                                                }
+                                                ))
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h1 className='text-l mb-2'>Lab</h1>
+                                        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-3 mb-4 w-full">
+                                            {labRooms.length === 0 ? (
+                                                <div className='bg-red-300 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                    <p>None</p>
+                                                </div>
+                                            ) :
+                                                (labRooms.map(lab => {
+                                                    return (
+                                                        <div className='bg-[#93C572] p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                            <p key={lab}>{lab}</p>
+                                                        </div>
+                                                    )
+
+                                                }
+                                                ))
+                                            }
+                                        </div>
+                                    </div>
+
+
+                                    <div className="w-full h-[1px] bg-gray-900/20 mb-3" />
                                 </div>
-                                <div className="w-full h-[1px] bg-gray-900/20 mb-3" />
                             </div>
                         )
-                    })
-                    }
+                    })}
                 </div>
             </div>
         </div>
