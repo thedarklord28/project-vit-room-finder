@@ -75,7 +75,7 @@ export default function Live() {
 
         <div className='w-full h-screen flex flex-col bg-[#FFF6EA] overflow-hidden '>
             <div className='w-full flex flex-shrink-0 mx-auto max-w-7xl p-6 py-5 gap-3 justify-between items-center'>
-                <h1 className='text-xl px-10'>RoomFree</h1>
+                <h1 className='text-xl px-10 pl-0'>RoomFree</h1>
 
                 <div className='flex flex-wrap items-center gap-2'>
                     <div className='flex gap-2 tracking-tight leading-none text-2xl'>
@@ -92,7 +92,7 @@ export default function Live() {
                 </div>
             </div>
 
-            <div className="w-full h-[1px] bg-gray-900/20 mb-3" />
+            <div className="w-full h-[1px] bg-gray-900/20" />
 
             <div className='w-full flex-1 overflow-y-auto px-6 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
                 <div className='max-w-7xl mx-auto w-full'>
@@ -100,8 +100,8 @@ export default function Live() {
                         const rooms = freeByBlock[block] || [];
                         return (
                             <div key={block} className='w-full'>
-                                <div>
-                                    <h1>{block}</h1>
+                                <div className='flex gap-2 items-center justify-between mb-4 px-2'>
+                                    <h1 className='text-xl'>{block}</h1>
                                     <p>{rooms.length} free</p>
                                 </div>
                                 <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-3 mb-4 w-full">
