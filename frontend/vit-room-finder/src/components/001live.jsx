@@ -9,12 +9,14 @@ export default function Live() {
     const [curDay, setCurDay] = useState('');
     const [curTime, setCurTime] = useState('');
     const [allFreeRooms, setAllFreeRooms] = useState(null);
-    const [freeTheoryRooms, setFreeTheoryRooms] = useState(null);
-    const [freeLabRooms, setFreeLabRooms] = useState(null);
+
 
     const BLOCKS = [...new Set(
         Object.values(classData.rooms).map(r => r.block).filter(Boolean)
     )].sort();
+
+
+
 
     useEffect(() => {
         const updateClock = () => {
@@ -63,6 +65,23 @@ export default function Live() {
         }
     }, [curDay, curTime])
 
+    const allByBlock = Object.entries(classData.rooms || {}).reduce((acc, [venue, details]) => {
+        const block = details.block;
+        if (!block) return acc;
+
+        if (!acc[block]) acc[block] = { 'theory': [], 'lab': [] };
+
+        const isLab = details.occupied_slots[0].slot.includes('L')
+
+        if (isLab) {
+            acc[block].lab.push(venue);
+        } else {
+            acc[block].theory.push(venue);
+        }
+
+        return acc;
+    }, {});
+
     const freeByBlock = (allFreeRooms || []).reduce((acc, [venue, details]) => {
         const block = details.block;
         if (!block) return acc;
@@ -103,6 +122,9 @@ export default function Live() {
                 <div className='max-w-7xl mx-auto w-full'>
                     {BLOCKS.map(block => {
                         const blockData = freeByBlock[block] || { theory: [], lab: [] };
+                        const allBlockData = allByBlock[block] || { theory: [], lab: [] };
+                        const allTheory = allBlockData.theory;
+                        const allLab = allBlockData.lab;
                         const theoryRooms = blockData.theory;
                         const labRooms = blockData.lab;
                         const totalFreeCount = theoryRooms.length + labRooms.length;
@@ -118,19 +140,27 @@ export default function Live() {
                                         <h1 className='text-l mb-2'>Theory</h1>
                                         <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-3 mb-4 w-full">
                                             {theoryRooms.length === 0 ? (
-                                                <div className='bg-red-300 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                <div className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
                                                     <p>None</p>
                                                 </div>
                                             ) :
-                                                (theoryRooms.map(theory => {
-                                                    return (
-                                                        <div className='bg-[#93C572] p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
-                                                            <p key={theory}>{theory}</p>
-                                                        </div>
-                                                    )
+                                                (
+                                                    <>
+                                                        {
+                                                            theoryRooms.map(theory => (
+                                                                <div className='bg-[#93C572] p-3 py-3 rounded-3xl flex items-center justify-center text-center' >
+                                                                    <p key={theory}>{theory}</p>
+                                                                </div>
+                                                            ))}
 
-                                                }
-                                                ))
+                                                        {allTheory.filter(t => !theoryRooms.includes(t)).map(theory => (
+                                                            <div key={theory} className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                                <p>{theory}</p>
+                                                            </div>
+                                                        ))}
+
+                                                    </>
+                                                )
                                             }
                                         </div>
                                     </div>
@@ -139,20 +169,30 @@ export default function Live() {
                                         <h1 className='text-l mb-2'>Lab</h1>
                                         <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-3 mb-4 w-full">
                                             {labRooms.length === 0 ? (
-                                                <div className='bg-red-300 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                <div className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
                                                     <p>None</p>
                                                 </div>
                                             ) :
-                                                (labRooms.map(lab => {
-                                                    return (
-                                                        <div className='bg-[#93C572] p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
-                                                            <p key={lab}>{lab}</p>
-                                                        </div>
-                                                    )
+                                                (
+                                                    <>
+                                                        {
+                                                            labRooms.map(lab => (
+                                                                <div className='bg-[#93C572] p-3 py-3 rounded-3xl flex items-center justify-center text-center' >
+                                                                    <p key={lab}>{lab}</p>
+                                                                </div>
+                                                            ))}
 
-                                                }
-                                                ))
+                                                        {allLab.filter(t => !labRooms.includes(t)).map(lab => (
+                                                            <div key={lab} className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                                <p>{lab}</p>
+                                                            </div>
+                                                        ))}
+
+                                                    </>
+
+                                            )
                                             }
+
                                         </div>
                                     </div>
 
@@ -164,6 +204,6 @@ export default function Live() {
                     })}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
