@@ -11,6 +11,8 @@ export default function Live() {
     const [allFreeRooms, setAllFreeRooms] = useState(null);
 
     const [hideOccupied, setHideOccupied] = useState(false);
+    const [isCustomTime, setIsCustomTime] = useState(false);
+
     const BLOCKS = [...new Set(
         Object.values(classData.rooms).map(r => r.block).filter(Boolean)
     )].sort();
@@ -19,6 +21,8 @@ export default function Live() {
 
 
     useEffect(() => {
+        if (isCustomTime) return;
+
         const updateClock = () => {
             const now = new Date();
             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -36,7 +40,7 @@ export default function Live() {
         const timerId = setInterval(updateClock, 1000);
 
         return () => clearInterval(timerId);
-    }, []);
+    }, [isCustomTime]);
 
 
     useEffect(() => {
@@ -103,8 +107,30 @@ export default function Live() {
 
                 <div className='flex flex-wrap items-center gap-2'>
                     <div className='flex gap-2 tracking-tight leading-none text-2xl'>
-                        <h1>{curDay}</h1>
-                        <h1>{curTime}</h1>
+                        {isCustomTime ? (
+                            <>
+                                <select
+                                    value={curDay}
+                                    onChange={e => setCurDay(e.target.value)}
+                                    className='bg-transparent text-2xl'
+                                >
+                                    {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(d => (
+                                        <option key={d} value={d}>{d}</option>
+                                    ))}
+                                </select>
+                                <input
+                                    type="time"
+                                    value={curTime}
+                                    onChange={e => setCurTime(e.target.value)}
+                                    className='bg-transparent text-2xl'
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <h1>{curDay}</h1>
+                                <h1>{curTime}</h1>
+                            </>
+                        )}
                     </div>
 
                     <div className="hidden sm:block h-8 w-[2px] bg-gray-900/30" />
@@ -114,6 +140,13 @@ export default function Live() {
                         <h1>{`Lab Slot: ${activeLabSlot ? activeLabSlot : 'None'}`}</h1>
                     </div>
                 </div>
+
+                <button
+                    onClick={() => setIsCustomTime(prev => !prev)}
+                    className='text-sm px-3 py-1 rounded-full border border-gray-900/20'
+                >
+                    {isCustomTime ? 'Back to live' : 'Custom time'}
+                </button>
             </div>
 
             <div className="w-full h-[1px] bg-gray-900/20" />
@@ -131,10 +164,10 @@ export default function Live() {
                             className="sr-only peer"
                         />
                         <div className={`relative w-9 h-5 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-soft dark:peer-focus:ring-brand-soft rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-buffer after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand 
-                            ${hideOccupied?
-                                        'bg-[#93C572]':
-                                        'bg-red-400'
-                                    }`}></div>
+                            ${hideOccupied ?
+                                'bg-[#93C572]' :
+                                'bg-red-400'
+                            }`}></div>
                         <span className="select-none ms-3 text-sm font-medium text-heading">Hide Occupied Classrooms</span>
                     </label>
 
@@ -157,7 +190,7 @@ export default function Live() {
                                     <div>
                                         <h1 className='text-l mb-2'>Theory</h1>
                                         <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-3 mb-4 w-full">
-                                            {(hideOccupied || allTheory.length===0)&&theoryRooms.length === 0 ? (
+                                            {(hideOccupied || allTheory.length === 0) && theoryRooms.length === 0 ? (
                                                 <div className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
                                                     <p>None</p>
                                                 </div>
@@ -187,7 +220,7 @@ export default function Live() {
                                     <div>
                                         <h1 className='text-l mb-2'>Lab</h1>
                                         <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-3 mb-4 w-full">
-                                            {(hideOccupied || allLab.length===0)&&labRooms.length === 0 ? (
+                                            {(hideOccupied || allLab.length === 0) && labRooms.length === 0 ? (
                                                 <div className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
                                                     <p>None</p>
                                                 </div>
