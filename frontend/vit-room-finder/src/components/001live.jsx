@@ -10,7 +10,7 @@ export default function Live() {
     const [curTime, setCurTime] = useState('');
     const [allFreeRooms, setAllFreeRooms] = useState(null);
 
-
+    const [hideOccupied, setHideOccupied] = useState(false);
     const BLOCKS = [...new Set(
         Object.values(classData.rooms).map(r => r.block).filter(Boolean)
     )].sort();
@@ -24,8 +24,8 @@ export default function Live() {
             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
             const currentDay = days[now.getDay()];
-            const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-            //const currentTimeStr = '08:30';
+            //const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            const currentTimeStr = '08:30';
             setCurDay(currentDay);
             //setCurDay('Friday');
             setCurTime(currentTimeStr);
@@ -119,7 +119,20 @@ export default function Live() {
             <div className="w-full h-[1px] bg-gray-900/20" />
 
             <div className='w-full flex-1 overflow-y-auto px-6 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
+
+
+
                 <div className='max-w-7xl mx-auto w-full'>
+                    <label className="inline-flex items-center cursor-pointer">
+                        <input
+                            type="checkbox"
+                            checked={hideOccupied}
+                            onChange={(e) => setHideOccupied(e.target.checked)}
+                            className="sr-only peer"
+                        />
+                        <div className="relative w-9 h-5 bg-red-400 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-soft dark:peer-focus:ring-brand-soft rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-buffer after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand"></div>
+                        <span className="select-none ms-3 text-sm font-medium text-heading">Hide Occupied Classrooms</span>
+                    </label>
                     {BLOCKS.map(block => {
                         const blockData = freeByBlock[block] || { theory: [], lab: [] };
                         const allBlockData = allByBlock[block] || { theory: [], lab: [] };
@@ -139,7 +152,7 @@ export default function Live() {
                                     <div>
                                         <h1 className='text-l mb-2'>Theory</h1>
                                         <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-3 mb-4 w-full">
-                                            {theoryRooms.length === 0 ? (
+                                            {(hideOccupied || allTheory.length===0)&&theoryRooms.length === 0 ? (
                                                 <div className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
                                                     <p>None</p>
                                                 </div>
@@ -153,11 +166,12 @@ export default function Live() {
                                                                 </div>
                                                             ))}
 
-                                                        {allTheory.filter(t => !theoryRooms.includes(t)).map(theory => (
-                                                            <div key={theory} className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
-                                                                <p>{theory}</p>
-                                                            </div>
-                                                        ))}
+                                                        {!hideOccupied &&
+                                                            allTheory.filter(t => !theoryRooms.includes(t)).map(theory => (
+                                                                <div key={theory} className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                                    <p>{theory}</p>
+                                                                </div>
+                                                            ))}
 
                                                     </>
                                                 )
@@ -168,7 +182,7 @@ export default function Live() {
                                     <div>
                                         <h1 className='text-l mb-2'>Lab</h1>
                                         <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-3 mb-4 w-full">
-                                            {labRooms.length === 0 ? (
+                                            {(hideOccupied || allLab.length===0)&&labRooms.length === 0 ? (
                                                 <div className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
                                                     <p>None</p>
                                                 </div>
@@ -182,15 +196,16 @@ export default function Live() {
                                                                 </div>
                                                             ))}
 
-                                                        {allLab.filter(t => !labRooms.includes(t)).map(lab => (
-                                                            <div key={lab} className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
-                                                                <p>{lab}</p>
-                                                            </div>
-                                                        ))}
+                                                        {!hideOccupied &&
+                                                            allLab.filter(t => !labRooms.includes(t)).map(lab => (
+                                                                <div key={lab} className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                                    <p>{lab}</p>
+                                                                </div>
+                                                            ))}
 
                                                     </>
 
-                                            )
+                                                )
                                             }
 
                                         </div>
