@@ -24,8 +24,8 @@ export default function Live() {
             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
             const currentDay = days[now.getDay()];
-            //const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-            const currentTimeStr = '08:30';
+            const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            //const currentTimeStr = '08:30';
             setCurDay(currentDay);
             //setCurDay('Friday');
             setCurTime(currentTimeStr);
