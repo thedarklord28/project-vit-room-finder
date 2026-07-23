@@ -101,7 +101,7 @@ export default function Live() {
 
     return (
 
-        <div className='w-full h-screen flex flex-col bg-[#FFF6EA] overflow-hidden '>
+        <div className='w-full h-screen flex flex-col bg-[#FAFAF8] text-[#1A1A1A] overflow-hidden'>
             <div className='w-full flex flex-shrink-0 mx-auto max-w-7xl p-6 py-5 gap-3 justify-between items-center'>
                 <h1 className='text-2xl px-10 pl-0'>RoomFree</h1>
 
@@ -165,7 +165,7 @@ export default function Live() {
                         />
                         <div className={`relative w-9 h-5 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-soft dark:peer-focus:ring-brand-soft rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-buffer after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand 
                             ${hideOccupied ?
-                                'bg-[#93C572]' :
+                                'bg-[#86CC70]' :
                                 'bg-red-400'
                             }`}></div>
                         <span className="select-none ms-3 text-sm font-medium text-heading">Hide Occupied Classrooms</span>
@@ -189,9 +189,9 @@ export default function Live() {
                                 <div>
                                     <div>
                                         <h1 className='text-l mb-2'>Theory</h1>
-                                        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-3 mb-4 w-full">
+                                        <div className="font-medium grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(125px,1fr))] gap-3 mb-4 w-full tracking-wider">
                                             {(hideOccupied || allTheory.length === 0) && theoryRooms.length === 0 ? (
-                                                <div className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                <div className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
                                                     <p>None</p>
                                                 </div>
                                             ) :
@@ -199,14 +199,14 @@ export default function Live() {
                                                     <>
                                                         {
                                                             theoryRooms.map(theory => (
-                                                                <div className='bg-[#93C572] p-3 py-3 rounded-3xl flex items-center justify-center text-center' >
+                                                                <div className='bg-[#86CC70] outline-2 outline-green-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center' >
                                                                     <p key={theory}>{theory}</p>
                                                                 </div>
                                                             ))}
 
                                                         {!hideOccupied &&
                                                             allTheory.filter(t => !theoryRooms.includes(t)).map(theory => (
-                                                                <div key={theory} className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                                <div key={theory} className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
                                                                     <p>{theory}</p>
                                                                 </div>
                                                             ))}
@@ -219,9 +219,9 @@ export default function Live() {
 
                                     <div>
                                         <h1 className='text-l mb-2'>Lab</h1>
-                                        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-3 mb-4 w-full">
+                                        <div className="font-medium grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-3 mb-4 w-full tracking-wider">
                                             {(hideOccupied || allLab.length === 0) && labRooms.length === 0 ? (
-                                                <div className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                <div className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
                                                     <p>None</p>
                                                 </div>
                                             ) :
@@ -229,14 +229,14 @@ export default function Live() {
                                                     <>
                                                         {
                                                             labRooms.map(lab => (
-                                                                <div className='bg-[#93C572] p-3 py-3 rounded-3xl flex items-center justify-center text-center' >
+                                                                <div className='bg-[#86CC70] outline-2 outline-green-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center' >
                                                                     <p key={lab}>{lab}</p>
                                                                 </div>
                                                             ))}
 
                                                         {!hideOccupied &&
                                                             allLab.filter(t => !labRooms.includes(t)).map(lab => (
-                                                                <div key={lab} className='bg-red-400 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                                <div key={lab} className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
                                                                     <p>{lab}</p>
                                                                 </div>
                                                             ))}
