@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import classData from "../../rawdata/rooms.json"
 import slotData from "../../rawdata/slotTimings.json"
 
+import MenuIcon from '@mui/icons-material/Menu';
+
 export default function Live() {
     const [activeTheorySlot, setActiveTheorySlot] = useState(null);
     const [activeLabSlot, setActiveLabSlot] = useState(null);
@@ -28,8 +30,8 @@ export default function Live() {
             const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
             const currentDay = days[now.getDay()];
-            const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-            //const currentTimeStr = '08:30';
+            //const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            const currentTimeStr = '08:30';
             setCurDay(currentDay);
             //setCurDay('Friday');
             setCurTime(currentTimeStr);
@@ -102,7 +104,28 @@ export default function Live() {
     return (
 
         <div className='w-full h-screen flex flex-col bg-[#FFFFFF] text-[#1A1A1A] overflow-hidden'>
-            <div className='w-full flex flex-shrink-0 mx-auto max-w-7xl p-6 py-5 gap-3 justify-between items-center'>
+            <div className='w-full flex flex-shrink-0 p-3.5 px-[5%] gap-3 justify-between items-center bg-[#FDF8F8]'>
+                <MenuIcon className='!w-8 !h-8 text-gray-900'></MenuIcon>
+
+                <div className='flex flex-col items-center justify-center'>
+                    <h1 className='text-3xl font-bold'>SlotSpot</h1>
+                    <div className='flex flex-1 gap-3 font-sm items-center justify-center text-[#0F2040]'>
+                        <h1>{`Theory: ${activeTheorySlot ? activeTheorySlot : 'None'}`}</h1>
+                        <span className="text-gray-500">•</span>
+                        <h1>{`Lab: ${activeLabSlot ? activeLabSlot : 'None'}`}</h1>
+                    </div>
+                </div>
+
+
+                <div className='flex flex-col items-center justify-center'>
+                    <h2 className='text-l font-medium'>{curDay}</h2>
+                    <h1 className='text-xl font-semibold'>{curTime}</h1>
+
+                </div>
+            </div>
+
+
+            {/* <div className='w-full flex flex-shrink-0 mx-auto max-w-7xl p-6 py-5 gap-3 justify-between items-center'>
                 <h1 className='text-2xl px-10 pl-0'>SlotSpot</h1>
 
                 <div className='flex flex-wrap items-center gap-2'>
@@ -135,10 +158,7 @@ export default function Live() {
 
                     <div className="hidden sm:block h-8 w-[2px] bg-gray-900/30" />
 
-                    <div className='text-right text-sm leading-tight items-center'>
-                        <h1>{`Theory Slot: ${activeTheorySlot ? activeTheorySlot : 'None'}`}</h1>
-                        <h1>{`Lab Slot: ${activeLabSlot ? activeLabSlot : 'None'}`}</h1>
-                    </div>
+                    
                 </div>
 
                 <button
@@ -148,6 +168,7 @@ export default function Live() {
                     {isCustomTime ? 'Back to live' : 'Custom time'}
                 </button>
             </div>
+ */}
 
             <div className="w-full h-[1px] bg-gray-900/20" />
 
