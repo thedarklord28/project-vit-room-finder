@@ -25,7 +25,7 @@ export default function Live() {
 
         const updateClock = () => {
             const now = new Date();
-            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
             const currentDay = days[now.getDay()];
             const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
@@ -101,9 +101,9 @@ export default function Live() {
 
     return (
 
-        <div className='w-full h-screen flex flex-col bg-white text-[#1A1A1A] overflow-hidden'>
+        <div className='w-full h-screen flex flex-col bg-[#FFFFFF] text-[#1A1A1A] overflow-hidden'>
             <div className='w-full flex flex-shrink-0 mx-auto max-w-7xl p-6 py-5 gap-3 justify-between items-center'>
-                <h1 className='text-2xl px-10 pl-0'>RoomFree</h1>
+                <h1 className='text-2xl px-10 pl-0'>SlotSpot</h1>
 
                 <div className='flex flex-wrap items-center gap-2'>
                     <div className='flex gap-2 tracking-tight leading-none text-2xl'>
