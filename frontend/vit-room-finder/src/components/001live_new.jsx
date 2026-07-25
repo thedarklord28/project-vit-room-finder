@@ -15,6 +15,9 @@ export default function Live() {
     const [hideOccupied, setHideOccupied] = useState(false);
     const [isCustomTime, setIsCustomTime] = useState(false);
 
+    const [selectedBlock, setSelectedBlock]=useState(null);
+    const [isSelectedBlock, setIsSelectedBlock]=useState(null);
+
     const BLOCKS = [...new Set(
         Object.values(classData.rooms).map(r => r.block).filter(Boolean)
     )].sort();
@@ -67,7 +70,8 @@ export default function Live() {
 
             setActiveTheorySlot(currTheorySlot);
             setActiveLabSlot(currLabSlot);
-            setAllFreeRooms(freeRooms)
+            setAllFreeRooms(freeRooms);
+            setSelectedBlock(BLOCKS[0]);
         }
     }, [curDay, curTime])
 
@@ -99,6 +103,7 @@ export default function Live() {
         else
             acc[block].theory.push(venue);
         return acc;
+        
     }, {})
 
     return (
@@ -173,8 +178,11 @@ export default function Live() {
             <div className="w-full h-[1px] bg-gray-900/20" />
 
             <div className='w-full flex-1 overflow-y-auto px-6 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
-                <div className='w-full flex flex-shrink-0 p-3.5 px-[5%] bg-white'>
-                    {BLOCKS.map(block => {
+                <div className='w-full flex items-end 
+                flex-shrink-0 p-3.5 px-[5%] bg-white'>
+                    {
+                    BLOCKS.map(block => {
+                        const isSelectedBlock=selectedBlock===block;
                         const blockData = freeByBlock[block] || { theory: [], lab: [] };
                         const allBlockData = allByBlock[block] || { theory: [], lab: [] };
                         const allTheory = allBlockData.theory;
@@ -186,7 +194,7 @@ export default function Live() {
                         return (
                             <div key={block} className='w-full'>
                                 <div className='grid grid-flow-col items-end auto-cols-fr gap-0 p-0 m-0 w-full'>
-                                    <div className='border border-black text-center bg-[#FDF8F8] px-6 py-2'>
+                                    <div className={`border border-black text-center px-6 py-4 ${isSelectedBlock? 'bg-white ':'bg-[#FDF8F8] pt-2' }`}>
                                         <h1 className='text-xl'>{block}</h1>
                                         <p>{theoryRooms.length + labRooms.length} free</p>
                                     </div>
