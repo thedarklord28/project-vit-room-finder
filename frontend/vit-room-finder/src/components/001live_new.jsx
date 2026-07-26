@@ -15,8 +15,8 @@ export default function Live() {
     const [hideOccupied, setHideOccupied] = useState(false);
     const [isCustomTime, setIsCustomTime] = useState(false);
 
-    const [selectedBlock, setSelectedBlock]=useState(null);
-    const [isSelectedBlock, setIsSelectedBlock]=useState(null);
+    const [selectedBlock, setSelectedBlock] = useState(null);
+    const [isSelectedBlock, setIsSelectedBlock] = useState(null);
 
     const BLOCKS = [...new Set(
         Object.values(classData.rooms).map(r => r.block).filter(Boolean)
@@ -103,7 +103,7 @@ export default function Live() {
         else
             acc[block].theory.push(venue);
         return acc;
-        
+
     }, {})
 
     return (
@@ -178,98 +178,69 @@ export default function Live() {
             <div className="w-full h-[1px] bg-gray-900/20" />
 
             <div className='w-full flex-1 overflow-y-auto px-6 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
-                <div className='w-full flex items-end 
-                flex-shrink-0 p-3.5 px-[5%] bg-white'>
+                <div className='w-full flex items-end flex-shrink-0 p-3.5 px-[5%] bg-white'>
                     {
-                    BLOCKS.map(block => {
-                        const isSelectedBlock=selectedBlock===block;
-                        const blockData = freeByBlock[block] || { theory: [], lab: [] };
-                        const allBlockData = allByBlock[block] || { theory: [], lab: [] };
-                        const allTheory = allBlockData.theory;
-                        const allLab = allBlockData.lab;
-                        const theoryRooms = blockData.theory;
-                        const labRooms = blockData.lab;
-                        const totalFreeCount = theoryRooms.length + labRooms.length;
+                        BLOCKS.map(block => {
+                            const isSelectedBlock = selectedBlock === block;
 
-                        return (
-                            <div key={block} className='w-full'>
-                                <div className='grid grid-flow-col items-end auto-cols-fr gap-0 p-0 m-0 w-full'>
-                                    <div className={`border border-black text-center px-6 py-4 ${isSelectedBlock? 'bg-white ':'bg-[#FDF8F8] pt-2' }`}>
+
+                            return (
+                                <div key={block} className='w-full grid grid-flow-col items-end auto-cols-fr gap-0 p-0 m-0'>
+                                    <div onClick={() => setSelectedBlock(block)} className={`border border-black text-center px-6 py-4 hover:cursor-pointer ${isSelectedBlock ? 'bg-white ' : 'bg-[#FDF8F8] pt-2'}`}>
                                         <h1 className='text-xl'>{block}</h1>
-                                        <p>{theoryRooms.length + labRooms.length} free</p>
                                     </div>
+
                                 </div>
 
-                                {/*<div>
-                                     <div>
-                                        <h1 className='text-l mb-2'>Theory</h1>
-                                        <div className="font-medium grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(125px,1fr))] gap-3 mb-4 w-full tracking-wider">
-                                            {(hideOccupied || allTheory.length === 0) && theoryRooms.length === 0 ? (
-                                                <div className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
-                                                    <p>None</p>
-                                                </div>
-                                            ) :
-                                                (
-                                                    <>
-                                                        {
-                                                            theoryRooms.map(theory => (
-                                                                <div className='bg-[#86CC70] outline-2 outline-green-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center' >
-                                                                    <p key={theory}>{theory}</p>
-                                                                </div>
-                                                            ))}
 
-                                                        {!hideOccupied &&
-                                                            allTheory.filter(t => !theoryRooms.includes(t)).map(theory => (
-                                                                <div key={theory} className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
-                                                                    <p>{theory}</p>
-                                                                </div>
-                                                            ))}
-
-                                                    </>
-                                                )
-                                            }
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <h1 className='text-l mb-2'>Lab</h1>
-                                        <div className="font-medium grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-3 mb-4 w-full tracking-wider">
-                                            {(hideOccupied || allLab.length === 0) && labRooms.length === 0 ? (
-                                                <div className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
-                                                    <p>None</p>
-                                                </div>
-                                            ) :
-                                                (
-                                                    <>
-                                                        {
-                                                            labRooms.map(lab => (
-                                                                <div className='bg-[#86CC70] outline-2 outline-green-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center' >
-                                                                    <p key={lab}>{lab}</p>
-                                                                </div>
-                                                            ))}
-
-                                                        {!hideOccupied &&
-                                                            allLab.filter(t => !labRooms.includes(t)).map(lab => (
-                                                                <div key={lab} className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
-                                                                    <p>{lab}</p>
-                                                                </div>
-                                                            ))}
-
-                                                    </>
-
-                                                )
-                                            }
-
-                                        </div>
-                                    </div>
-
-
-                                    <div className="w-full h-[1px] bg-gray-900/20 mb-3" />
-                                </div> */}
-                            </div>
-                        )
-                    })}
+                            )
+                        })
+                    }
                 </div>
+
+                {(() => {
+                    const blockData = freeByBlock[selectedBlock] || { theory: [], lab: [] };
+                    const allBlockData = allByBlock[selectedBlock] || { theory: [], lab: [] };
+                    const allTheory = allBlockData.theory;
+                    const allLab = allBlockData.lab;
+                    const theoryRooms = blockData.theory;
+                    const labRooms = blockData.lab;
+                    const totalFreeCount = theoryRooms.length + labRooms.length;
+                    return (
+                        <div className='w-full p-3.5 px-[5%]'>
+                            <p>{theoryRooms.length + labRooms.length} free</p>
+                            <div>
+                                <h1 className='text-l mb-2'>Theory</h1>
+                                <div className="font-medium grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(125px,1fr))] gap-3 mb-4 w-full tracking-wider">
+                                    {(hideOccupied || allTheory.length === 0) && theoryRooms.length === 0 ? (
+                                        <div className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                            <p>None</p>
+                                        </div>
+                                    ) :
+                                        (
+                                            <>
+                                                {
+                                                    theoryRooms.map(theory => (
+                                                        <div key={theory} className='bg-[#86CC70] outline-2 outline-green-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center' >
+                                                            <p >{theory}</p>
+                                                        </div>
+                                                    ))}
+
+                                                {!hideOccupied &&
+                                                    allTheory.filter(t => !theoryRooms.includes(t)).map(theory => (
+                                                        <div key={theory} className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                                            <p>{theory}</p>
+                                                        </div>
+                                                    ))}
+
+                                            </>
+                                        )
+                                    }
+                                </div>
+                            </div>
+                        </div>)
+                })()}
+
 
 
                 <div className='max-w-7xl mx-auto w-full'>
@@ -287,91 +258,6 @@ export default function Live() {
                             }`}></div>
                         <span className="select-none ms-3 text-sm font-medium text-heading">Hide Occupied Classrooms</span>
                     </label>
-
-                    {BLOCKS.map(block => {
-                        const blockData = freeByBlock[block] || { theory: [], lab: [] };
-                        const allBlockData = allByBlock[block] || { theory: [], lab: [] };
-                        const allTheory = allBlockData.theory;
-                        const allLab = allBlockData.lab;
-                        const theoryRooms = blockData.theory;
-                        const labRooms = blockData.lab;
-                        const totalFreeCount = theoryRooms.length + labRooms.length;
-
-                        return (
-                            <div key={block} className='w-full'>
-                                <div className='flex gap-2 items-center justify-between mb-4 px-2'>
-                                    <h1 className='text-xl'>{block}</h1>
-                                    <p>{theoryRooms.length + labRooms.length} free</p>
-                                </div>
-                                <div>
-                                    <div>
-                                        <h1 className='text-l mb-2'>Theory</h1>
-                                        <div className="font-medium grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(125px,1fr))] gap-3 mb-4 w-full tracking-wider">
-                                            {(hideOccupied || allTheory.length === 0) && theoryRooms.length === 0 ? (
-                                                <div className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
-                                                    <p>None</p>
-                                                </div>
-                                            ) :
-                                                (
-                                                    <>
-                                                        {
-                                                            theoryRooms.map(theory => (
-                                                                <div className='bg-[#86CC70] outline-2 outline-green-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center' >
-                                                                    <p key={theory}>{theory}</p>
-                                                                </div>
-                                                            ))}
-
-                                                        {!hideOccupied &&
-                                                            allTheory.filter(t => !theoryRooms.includes(t)).map(theory => (
-                                                                <div key={theory} className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
-                                                                    <p>{theory}</p>
-                                                                </div>
-                                                            ))}
-
-                                                    </>
-                                                )
-                                            }
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <h1 className='text-l mb-2'>Lab</h1>
-                                        <div className="font-medium grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-3 mb-4 w-full tracking-wider">
-                                            {(hideOccupied || allLab.length === 0) && labRooms.length === 0 ? (
-                                                <div className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
-                                                    <p>None</p>
-                                                </div>
-                                            ) :
-                                                (
-                                                    <>
-                                                        {
-                                                            labRooms.map(lab => (
-                                                                <div className='bg-[#86CC70] outline-2 outline-green-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center' >
-                                                                    <p key={lab}>{lab}</p>
-                                                                </div>
-                                                            ))}
-
-                                                        {!hideOccupied &&
-                                                            allLab.filter(t => !labRooms.includes(t)).map(lab => (
-                                                                <div key={lab} className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
-                                                                    <p>{lab}</p>
-                                                                </div>
-                                                            ))}
-
-                                                    </>
-
-                                                )
-                                            }
-
-                                        </div>
-                                    </div>
-
-
-                                    <div className="w-full h-[1px] bg-gray-900/20 mb-3" />
-                                </div>
-                            </div>
-                        )
-                    })}
                 </div>
             </div>
         </div >
