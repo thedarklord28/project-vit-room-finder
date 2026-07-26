@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import classData from "../../rawdata/rooms.json"
 import slotData from "../../rawdata/slotTimings.json"
 
@@ -17,6 +17,21 @@ export default function Live() {
 
     const [selectedBlock, setSelectedBlock] = useState(null);
     const [isSelectedBlock, setIsSelectedBlock] = useState(null);
+
+    const scrollRef = useRef(null);
+    const [showLeftFade, setShowLeftFade] = useState(false);
+    const [showRightFade, setShowRightFade] = useState(true);
+
+    const handleScroll = () => {
+        const el = scrollRef.current;
+        if (!el) return;
+        setShowLeftFade(el.scrollLeft > 4);
+        setShowRightFade(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+    };
+
+    useEffect(() => {
+        handleScroll(); // check on mount in case content already overflows
+    }, []);
 
     const BLOCKS = [...new Set(
         Object.values(classData.rooms).map(r => r.block).filter(Boolean)
@@ -177,25 +192,35 @@ export default function Live() {
 
             <div className="w-full h-[1px] bg-gray-900/20" />
 
-            <div className='w-full flex-1 overflow-y-auto px-6 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
-                <div className='w-full flex items-end flex-shrink-0 p-3.5 px-[5%] bg-white'>
-                    {
-                        BLOCKS.map(block => {
+            <div className='w-full flex-1 overflow-y-auto px-6 py-4 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'>
+                <div className='w-full flex-shrink-0 bg-white relative'>
+                    {showLeftFade && (
+                        <div className='pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10' />
+                    )}
+                    {showRightFade && (
+                        <div className='pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10' />
+                    )}
+
+                    <div
+                        ref={scrollRef}
+                        onScroll={handleScroll}
+                        className='flex items-end gap-0 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-[5%] scroll-px-[5%]'
+                    >
+                        {BLOCKS.map(block => {
                             const isSelectedBlock = selectedBlock === block;
 
-
                             return (
-                                <div key={block} className='w-full grid grid-flow-col items-end auto-cols-fr gap-0 p-0 m-0'>
-                                    <div onClick={() => setSelectedBlock(block)} className={`border border-black text-center px-6 py-4 hover:cursor-pointer ${isSelectedBlock ? 'bg-white ' : 'bg-[#FDF8F8] pt-2'}`}>
-                                        <h1 className='text-xl'>{block}</h1>
-                                    </div>
-
+                                <div
+                                    key={block}
+                                    onClick={() => setSelectedBlock(block)}
+                                    className={`snap-start flex-1 min-w-[90px] border border-black text-center px-6 py-4 cursor-pointer whitespace-nowrap ${isSelectedBlock ? 'bg-white' : 'bg-[#FDF8F8] pt-2'
+                                        }`}
+                                >
+                                    <h1 className='text-xl'>{block}</h1>
                                 </div>
-
-
-                            )
-                        })
-                    }
+                            );
+                        })}
+                    </div>
                 </div>
 
                 {(() => {
