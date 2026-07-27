@@ -50,8 +50,8 @@ export default function Live() {
             const currentDay = days[now.getDay()];
             //const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
             const currentTimeStr = '08:30';
-            setCurDay(currentDay);
-            //setCurDay('Friday');
+            //setCurDay(currentDay);
+            setCurDay('FRI');
             setCurTime(currentTimeStr);
         };
 
@@ -233,7 +233,17 @@ export default function Live() {
                     const totalFreeCount = theoryRooms.length + labRooms.length;
                     return (
                         <div className='w-full p-3.5 px-[5%]'>
-                            <p>{theoryRooms.length + labRooms.length} free</p>
+                            <div className='flex items-end gap-8 mb-4'>
+                                <div>
+                                    <p className='h1 text-3xl font-bold'>{theoryRooms.length + labRooms.length}</p>
+                                    <p className='text-l'>FREE</p>
+                                </div>
+                                <div className='text-gray-700'>
+                                    <p className='h1 text-xl'>{allTheory.length + allLab.length}</p>
+                                    <p className='text-sm'>TOTAL</p>
+                                </div>
+                            </div>
+
                             <div>
                                 <h1 className='text-l mb-2'>Theory</h1>
                                 <div className="font-medium grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(125px,1fr))] gap-3 mb-4 w-full tracking-wider">
