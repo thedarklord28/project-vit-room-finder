@@ -245,7 +245,8 @@ export default function Live() {
                             </div>
 
                             <div>
-                                <h1 className='text-l mb-2'>Theory</h1>
+                                <h1 className='text-xl mb-2'>THEORY</h1>
+                                <div className='w-full h-[2px] bg-gray-500 mb-4'></div>
                                 <div className="font-medium grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(125px,1fr))] gap-3 mb-4 w-full tracking-wider">
                                     {(hideOccupied || allTheory.length === 0) && theoryRooms.length === 0 ? (
                                         <div className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
@@ -256,15 +257,17 @@ export default function Live() {
                                             <>
                                                 {
                                                     theoryRooms.map(theory => (
-                                                        <div key={theory} className='bg-[#86CC70] outline-2 outline-green-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center' >
-                                                            <p >{theory}</p>
+                                                        <div key={theory} className="bg-[#141414] text-white p-4 px-6 rounded-sm [clip-path:polygon(15px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_15px)]" >
+                                                            <p className='text-lg mb-5'>{theory}</p>
+                                                            <p className='text-sm'>Available</p>
                                                         </div>
                                                     ))}
 
                                                 {!hideOccupied &&
                                                     allTheory.filter(t => !theoryRooms.includes(t)).map(theory => (
-                                                        <div key={theory} className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
-                                                            <p>{theory}</p>
+                                                        <div key={theory} className="text-[#141414] bg-gray-400 p-4 px-6 rounded-sm [clip-path:polygon(15px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_15px)]" >
+                                                            <p className='text-lg mb-5'>{theory}</p>
+                                                            <p className='text-sm'>Occupied</p>
                                                         </div>
                                                     ))}
 
