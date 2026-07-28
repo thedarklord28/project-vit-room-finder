@@ -123,7 +123,7 @@ export default function Live() {
 
     return (
 
-        <div className='w-full h-screen flex flex-col bg-[#FFFFFF] text-[#1A1A1A] overflow-hidden'>
+        <div className='w-full h-screen flex flex-col bg-white text-[#1A1A1A] overflow-hidden'>
             <div className='w-full flex flex-shrink-0 p-3.5 px-[5%] gap-3 justify-between items-center bg-[#FDF8F8]'>
                 <MenuIcon className='!w-8 !h-8 text-gray-900'></MenuIcon>
 
@@ -138,7 +138,7 @@ export default function Live() {
 
 
                 <div className='flex flex-col items-center justify-center'>
-                    <h2 className='text-l font-medium'>{curDay}</h2>
+                    <h2 className='text-lg font-medium'>{curDay}</h2>
                     <h1 className='text-xl font-semibold'>{curTime}</h1>
 
                 </div>
@@ -236,7 +236,7 @@ export default function Live() {
                             <div className='flex items-end gap-8 mb-4'>
                                 <div>
                                     <p className='h1 text-3xl font-bold'>{theoryRooms.length + labRooms.length}</p>
-                                    <p className='text-l'>FREE</p>
+                                    <p className='text-lg'>FREE</p>
                                 </div>
                                 <div className='text-gray-700'>
                                     <p className='h1 text-xl'>{allTheory.length + allLab.length}</p>
@@ -247,7 +247,7 @@ export default function Live() {
                             <div>
                                 <h1 className='text-xl mb-2'>THEORY</h1>
                                 <div className='w-full h-[2px] bg-gray-500 mb-4'></div>
-                                <div className="font-medium grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(125px,1fr))] gap-3 mb-4 w-full tracking-wider">
+                                <div className="font-medium grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3 mb-4 w-full tracking-wider">
                                     {(hideOccupied || allTheory.length === 0) && theoryRooms.length === 0 ? (
                                         <div className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
                                             <p>None</p>
@@ -257,17 +257,23 @@ export default function Live() {
                                             <>
                                                 {
                                                     theoryRooms.map(theory => (
-                                                        <div key={theory} className="bg-[#141414] text-white p-4 px-6 rounded-sm [clip-path:polygon(15px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_15px)]" >
-                                                            <p className='text-lg mb-5'>{theory}</p>
-                                                            <p className='text-sm'>Available</p>
+                                                        <div key={theory} className="bg-white p-[2px] [clip-path:polygon(15px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_15px)]">
+                                                            <div className="text-white bg-[#141414] p-4 px-6 h-full w-full [clip-path:polygon(14px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_14px)]">
+                                                                <p className='text-lg mb-5'>{theory}</p>
+                                                                <p className='text-sm'>AVAILABLE</p>
+                                                            </div>
+
                                                         </div>
                                                     ))}
 
                                                 {!hideOccupied &&
                                                     allTheory.filter(t => !theoryRooms.includes(t)).map(theory => (
-                                                        <div key={theory} className="text-[#141414] bg-gray-400 p-4 px-6 rounded-sm [clip-path:polygon(15px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_15px)]" >
-                                                            <p className='text-lg mb-5'>{theory}</p>
-                                                            <p className='text-sm'>Occupied</p>
+                                                        <div key={theory} className="bg-[#141414] p-[2px] [clip-path:polygon(15px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_15px)]">
+                                                            <div className="bg-white text-[#141414] p-4 px-6 h-full w-full [clip-path:polygon(14px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_14px)]">
+                                                                <p className='text-lg mb-5'>{theory}</p>
+                                                                <p className='text-sm'>OCCUPIED</p>
+                                                            </div>
+
                                                         </div>
                                                     ))}
 
