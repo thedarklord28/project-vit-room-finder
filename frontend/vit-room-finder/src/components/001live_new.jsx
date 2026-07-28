@@ -21,17 +21,33 @@ export default function Live() {
 
     const scrollRef = useRef(null);
     const [showLeftFade, setShowLeftFade] = useState(false);
-    const [showRightFade, setShowRightFade] = useState(true);
+    const [showRightFade, setShowRightFade] = useState(false);
 
     const handleScroll = () => {
         const el = scrollRef.current;
         if (!el) return;
-        setShowLeftFade(el.scrollLeft > 4);
-        setShowRightFade(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
-    };
 
+        const isOverflowing = el.scrollWidth > el.clientWidth + 4;
+
+        setShowLeftFade(isOverflowing && el.scrollLeft > 4);
+        setShowRightFade(
+            isOverflowing &&
+            el.scrollLeft + el.clientWidth < el.scrollWidth - 4
+        );
+    };
     useEffect(() => {
-        handleScroll(); // check on mount in case content already overflows
+        const el = scrollRef.current;
+        if (!el) return;
+
+        const observer = new ResizeObserver(() => {
+            requestAnimationFrame(handleScroll);
+        });
+
+        observer.observe(el);
+
+        handleScroll();
+
+        return () => observer.disconnect();
     }, []);
 
     const BLOCKS = [...new Set(
@@ -49,8 +65,8 @@ export default function Live() {
             const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
             const currentDay = days[now.getDay()];
-            //const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-            const currentTimeStr = '09:30';
+            const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            //const currentTimeStr = '09:30';
             setCurDay(currentDay);
             //setCurDay('FRI');
             setCurTime(currentTimeStr);
@@ -192,18 +208,19 @@ export default function Live() {
             <div className="w-full h-[1px] bg-gray-900/20" />
 
             <div className='w-full flex-1 overflow-y-auto px-6 py-4 no-scrollbar'>
-                <div className='w-full flex-shrink-0 relative'>
+                <div className='w-full flex-shrink-0 relative px-[5%]'>
                     {showLeftFade && (
-                        <div className='pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent z-10' />
+                        <div className="absolute left-[5%] inset-y-0 w-10 z-10 pointer-events-none bg-gradient-to-r from-[#EAECEF] to-transparent" />
                     )}
+
                     {showRightFade && (
-                        <div className='pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent z-10' />
+                        <div className="absolute right-[5%] inset-y-0 w-10 z-10 pointer-events-none bg-gradient-to-l from-[#EAECEF] to-transparent" />
                     )}
 
                     <div
                         ref={scrollRef}
                         onScroll={handleScroll}
-                        className='flex items-end gap-0 overflow-x-auto snap-x snap-mandatory no-scrollbar px-[5%] scroll-px-[5%]'
+                        className='flex items-end gap-0 overflow-x-auto snap-x snap-mandatory no-scrollbar'
                     >
                         {BLOCKS.map(block => {
                             const isSelectedBlock = selectedBlock === block;
