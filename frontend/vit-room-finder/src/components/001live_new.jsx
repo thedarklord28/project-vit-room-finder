@@ -207,7 +207,7 @@ export default function Live() {
 
             <div className="w-full h-[1px] bg-gray-900/20" />
 
-            <div className='w-full flex-1 overflow-y-auto px-6 py-4 no-scrollbar'>
+            <div className='w-full flex-1 overflow-y-auto px-4 py-4 no-scrollbar'>
                 <div className='w-full flex-shrink-0 relative px-[5%]'>
                     {showLeftFade && (
                         <div className="absolute left-[5%] inset-y-0 w-10 z-10 pointer-events-none bg-gradient-to-r from-[#EAECEF] to-transparent" />
@@ -229,7 +229,7 @@ export default function Live() {
                                 <div
                                     key={block}
                                     onClick={() => setSelectedBlock(block)}
-                                    className={`snap-start flex-1 min-w-max overflow-hidden text-center px-3 sm:px-5 py-4 cursor-pointer whitespace-nowrap [clip-path:polygon(15px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_15px)] ${isSelectedBlock ? 'bg-white' : 'bg-[#cdcfd1] pt-2'
+                                    className={`snap-start flex-1 min-w-max overflow-hidden text-center px-3 sm:px-5 py-3 cursor-pointer whitespace-nowrap [clip-path:polygon(15px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_15px)] rounded-t-sm ${isSelectedBlock ? 'bg-white' : 'bg-[#cdcfd1] pt-2'
                                         }`}
                                 >
                                     <h1 className='text-xl'>{block}</h1>
@@ -261,12 +261,12 @@ export default function Live() {
                                     </div>
                                 </div>
 
-                                <div>
+                                <div className='mb-4'>
                                     <h1 className='text-xl mb-2'>THEORY</h1>
                                     <div className='w-full h-[2px] bg-gray-500 mb-4'></div>
                                     <div className="font-medium grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3 mb-4 w-full tracking-wider">
                                         {(hideOccupied || allTheory.length === 0) && theoryRooms.length === 0 ? (
-                                            <div className='bg-[#9CA3AF] outline-2 outline-gray-800 p-3 py-3 rounded-3xl flex items-center justify-center text-center'>
+                                            <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded-lg">
                                                 <p>None</p>
                                             </div>
                                         ) :
@@ -274,10 +274,13 @@ export default function Live() {
                                                 <>
                                                     {
                                                         theoryRooms.map(theory => (
-                                                            <div key={theory} className="bg-white p-[2px] [clip-path:polygon(15px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_15px)]">
-                                                                <div className="text-white bg-[#141414] p-4 px-6 h-full w-full [clip-path:polygon(14px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_14px)]">
-                                                                    <p className='text-lg mb-5'>{theory}</p>
-                                                                    <p className='text-sm'>AVAILABLE</p>
+                                                            <div key={theory}>
+                                                                <div className="bg-white border border-gray-400 py-2 px-4 w-full flex flex-col justify-center rounded-lg">
+                                                                    <p className='text-lg font-bold text-gray-900 tracking-wide'>{theory}</p>
+
+                                                                    <div className="flex items-center gap-1.5 mt-0.5">
+                                                                        <p className='text-[10px] font-bold text-emerald-600 tracking-wider uppercase'>AVAILABLE</p>
+                                                                    </div>
                                                                 </div>
 
                                                             </div>
@@ -285,10 +288,58 @@ export default function Live() {
 
                                                     {!hideOccupied &&
                                                         allTheory.filter(t => !theoryRooms.includes(t)).map(theory => (
-                                                            <div key={theory} className="bg-[#141414] p-[2px] [clip-path:polygon(15px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_15px)]">
-                                                                <div className="bg-white text-[#141414] p-4 px-6 h-full w-full [clip-path:polygon(14px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_14px)]">
-                                                                    <p className='text-lg mb-5'>{theory}</p>
-                                                                    <p className='text-sm'>OCCUPIED</p>
+                                                           <div key={theory}>
+                                                                <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded-lg">
+                                                                    <p className='text-lg font-bold text-gray-600 tracking-wide'>{theory} </p>
+
+                                                                    <div className="flex items-center gap-1.5 mt-0.5">
+                                                                        <p className='text-[10px] font-bold text-red-500 tracking-wider uppercase'>OCCUPIED</p>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        ))}
+
+                                                </>
+                                            )
+                                        }
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h1 className='text-xl mb-2'>LAB</h1>
+                                    <div className='w-full h-[2px] bg-gray-500 mb-4'></div>
+                                    <div className="font-medium grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3 mb-4 w-full tracking-wider">
+                                        {(hideOccupied || allLab.length === 0) && labRooms.length === 0 ? (
+                                            <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded-lg">
+                                                <p>None</p>
+                                            </div>
+                                        ) :
+                                            (
+                                                <>
+                                                    {
+                                                        labRooms.map(lab => (
+                                                            <div key={lab}>
+                                                                <div className="bg-white border border-gray-400 py-2 px-4 w-full flex flex-col justify-center rounded-lg">
+                                                                    <p className='text-lg font-bold text-gray-900 tracking-wide'>{lab}</p>
+
+                                                                    <div className="flex items-center gap-1.5 mt-0.5">
+                                                                        <p className='text-[10px] font-bold text-emerald-600 tracking-wider uppercase'>AVAILABLE</p>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        ))}
+
+                                                    {!hideOccupied &&
+                                                        allLab.filter(t => !labRooms.includes(t)).map(lab => (
+                                                           <div key={lab}>
+                                                                <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded-lg">
+                                                                    <p className='text-lg font-bold text-gray-600 tracking-wide'>{lab} </p>
+
+                                                                    <div className="flex items-center gap-1.5 mt-0.5">
+                                                                        <p className='text-[10px] font-bold text-red-500 tracking-wider uppercase'>OCCUPIED</p>
+                                                                    </div>
                                                                 </div>
 
                                                             </div>
