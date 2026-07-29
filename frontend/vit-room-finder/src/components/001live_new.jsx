@@ -65,8 +65,8 @@ export default function Live() {
             const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
             const currentDay = days[now.getDay()];
-            const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-            //const currentTimeStr = '09:30';
+            //const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            const currentTimeStr = '09:30';
             setCurDay(currentDay);
             //setCurDay('FRI');
             setCurTime(currentTimeStr);
@@ -145,7 +145,7 @@ export default function Live() {
                 <MenuIcon className='!w-7 !h-7 sm:!w-8 sm:!h-8 text-gray-900 flex-shrink-0'></MenuIcon>
 
                 <div className='flex flex-col items-center justify-center flex-1 min-w-0'>
-                    <h1 className='text-xl sm:text-3xl font-bold truncate'>SlotSpot</h1>
+                    <h1 className='text-xl sm:text-3xl font-bold truncate font-display'>SlotSpot</h1>
                     <div className='flex gap-2 sm:gap-3 font-sm items-center justify-center text-[#0F2040] text-xs sm:text-base'>
                         <h1>{`Theory: ${activeTheorySlot ? activeTheorySlot : 'None'}`}</h1>
                         <span className="text-gray-500">•</span>
@@ -234,7 +234,7 @@ export default function Live() {
                                             : 'bg-[#cdcfd1] pt-2 z-0 [filter:drop-shadow(3px_-2px_4px_rgba(0,0,0,0.12))]'
                                         }`}
                                 >
-                                    <h1 className='text-xl'>{block}</h1>
+                                    <h1 className='text-xl font-display'>{block}</h1>
                                 </div>
                             );
                         })}
@@ -252,7 +252,7 @@ export default function Live() {
                     return (
                         <div className='px-[5%]'>
                             <div className='w-full flex-shrink-0 bg-white relative p-5 shadow-[0_0_15px_-3px_rgba(0,0,0,0.4)]'>
-                                <div className='flex items-end gap-8 mb-4'>
+                                <div className='flex items-end gap-8 mb-6'>
                                     <div>
                                         <p className='h1 text-3xl font-bold'>{theoryRooms.length + labRooms.length}</p>
                                         <p className='text-lg'>FREE</p>
@@ -268,7 +268,7 @@ export default function Live() {
                                     <div className='w-full h-[2px] bg-gray-500 mb-4'></div>
                                     <div className="font-medium grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3 mb-4 w-full tracking-wider">
                                         {(hideOccupied || allTheory.length === 0) && theoryRooms.length === 0 ? (
-                                            <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded-lg">
+                                            <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded">
                                                 <p>None</p>
                                             </div>
                                         ) :
@@ -277,11 +277,11 @@ export default function Live() {
                                                     {
                                                         theoryRooms.map(theory => (
                                                             <div key={theory}>
-                                                                <div className="bg-white border border-gray-400 py-2 px-4 w-full flex flex-col justify-center rounded-lg">
-                                                                    <p className='text-lg font-bold text-gray-900 tracking-wide'>{theory}</p>
+                                                                <div className="bg-white border border-gray-400 py-2 px-4 w-full flex flex-col justify-center rounded hover:-translate-y-0.5 hover:border-zinc-500 hover:shadow-[3px_3px_0px_#18181B] transition-[transform,border-color,box-shadow] duration-150 ease-out">
+                                                                    <p className='text-lg font-bold text-gray-900 tracking-wide font-display'>{theory}</p>
 
                                                                     <div className="flex items-center gap-1.5 mt-0.5">
-                                                                        <p className='text-[10px] font-bold text-emerald-600 tracking-wider uppercase'>AVAILABLE</p>
+                                                                        <p className='text-[10px] font-bold text-emerald-600 tracking-wider uppercase'>FREE</p>
                                                                     </div>
                                                                 </div>
 
@@ -291,11 +291,11 @@ export default function Live() {
                                                     {!hideOccupied &&
                                                         allTheory.filter(t => !theoryRooms.includes(t)).map(theory => (
                                                             <div key={theory}>
-                                                                <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded-lg">
-                                                                    <p className='text-lg font-bold text-gray-600 tracking-wide'>{theory} </p>
+                                                                <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded hover:-translate-y-px">
+                                                                    <p className='text-lg font-bold text-gray-600 tracking-wide font-display'>{theory} </p>
 
                                                                     <div className="flex items-center gap-1.5 mt-0.5">
-                                                                        <p className='text-[10px] font-bold text-red-500 tracking-wider uppercase'>OCCUPIED</p>
+                                                                        <p className='text-[10px] font-bold text-gray-500 tracking-wider uppercase'>IN USE</p>
                                                                     </div>
                                                                 </div>
 
@@ -313,7 +313,7 @@ export default function Live() {
                                     <div className='w-full h-[2px] bg-gray-500 mb-4'></div>
                                     <div className="font-medium grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3 mb-4 w-full tracking-wider">
                                         {(hideOccupied || allLab.length === 0) && labRooms.length === 0 ? (
-                                            <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded-lg">
+                                            <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded">
                                                 <p>None</p>
                                             </div>
                                         ) :
@@ -322,11 +322,11 @@ export default function Live() {
                                                     {
                                                         labRooms.map(lab => (
                                                             <div key={lab}>
-                                                                <div className="bg-white border border-gray-400 py-2 px-4 w-full flex flex-col justify-center rounded-lg">
-                                                                    <p className='text-lg font-bold text-gray-900 tracking-wide'>{lab}</p>
+                                                                <div className="bg-white border border-gray-400 py-2 px-4 w-full flex flex-col justify-center rounded hover:-translate-y-0.5 hover:border-zinc-500 hover:shadow-[3px_3px_0px_#18181B] transition-[transform,border-color,box-shadow] duration-150 ease-out">
+                                                                    <p className='text-lg font-bold text-gray-900 tracking-wide font-display'>{lab}</p>
 
                                                                     <div className="flex items-center gap-1.5 mt-0.5">
-                                                                        <p className='text-[10px] font-bold text-emerald-600 tracking-wider uppercase'>AVAILABLE</p>
+                                                                        <p className='text-[10px] font-bold text-emerald-600 tracking-wider uppercase'>FREE</p>
                                                                     </div>
                                                                 </div>
 
@@ -336,11 +336,11 @@ export default function Live() {
                                                     {!hideOccupied &&
                                                         allLab.filter(t => !labRooms.includes(t)).map(lab => (
                                                             <div key={lab}>
-                                                                <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded-lg">
-                                                                    <p className='text-lg font-bold text-gray-600 tracking-wide'>{lab} </p>
+                                                                <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded">
+                                                                    <p className='text-lg font-bold text-gray-600 tracking-wide font-display'>{lab} </p>
 
                                                                     <div className="flex items-center gap-1.5 mt-0.5">
-                                                                        <p className='text-[10px] font-bold text-red-500 tracking-wider uppercase'>OCCUPIED</p>
+                                                                        <p className='text-[10px] font-bold text-gray-500 tracking-wider uppercase'>IN USE</p>
                                                                     </div>
                                                                 </div>
 
