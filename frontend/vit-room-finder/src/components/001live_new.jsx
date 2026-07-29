@@ -141,7 +141,7 @@ export default function Live() {
     return (
 
         <div className='w-full h-screen flex flex-col bg-[#EAECEF] text-[#1A1A1A] overflow-hidden overflow-x-hidden no-scrollbar'>
-            <div className='w-full flex flex-shrink-0 p-3.5 px-[5%] gap-2 sm:gap-3 justify-between items-center bg-[#FFFFFF] shadow-md'>
+            <div className='w-full flex flex-shrink-0 p-3.5 px-[5%] gap-2 sm:gap-3 justify-between items-center bg-[#FFFFFF] shadow-md relative z-30'>
                 <MenuIcon className='!w-7 !h-7 sm:!w-8 sm:!h-8 text-gray-900 flex-shrink-0'></MenuIcon>
 
                 <div className='flex flex-col items-center justify-center flex-1 min-w-0'>
@@ -210,11 +210,11 @@ export default function Live() {
             <div className='w-full flex-1 overflow-y-auto px-4 py-4 no-scrollbar'>
                 <div className='w-full flex-shrink-0 relative px-[5%]'>
                     {showLeftFade && (
-                        <div className="absolute left-[5%] inset-y-0 w-10 z-10 pointer-events-none bg-gradient-to-r from-[#EAECEF] to-transparent" />
+                        <div className="absolute left-[5%] inset-y-0 w-10 z-20 pointer-events-none bg-gradient-to-r from-[#EAECEF] to-transparent" />
                     )}
 
                     {showRightFade && (
-                        <div className="absolute right-[5%] inset-y-0 w-10 z-10 pointer-events-none bg-gradient-to-l from-[#EAECEF] to-transparent" />
+                        <div className="absolute right-[5%] inset-y-0 w-10 z-20 pointer-events-none bg-gradient-to-l from-[#EAECEF] to-transparent" />
                     )}
 
                     <div
@@ -229,7 +229,9 @@ export default function Live() {
                                 <div
                                     key={block}
                                     onClick={() => setSelectedBlock(block)}
-                                    className={`snap-start flex-1 min-w-max overflow-hidden text-center px-3 sm:px-5 py-3 cursor-pointer whitespace-nowrap [clip-path:polygon(15px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_15px)] rounded-t-sm ${isSelectedBlock ? 'bg-white' : 'bg-[#cdcfd1] pt-2'
+                                    className={`relative snap-start flex-1 min-w-max text-center px-3 sm:px-5 py-3 cursor-pointer whitespace-nowrap [clip-path:polygon(15px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_15px)] rounded-t-sm filter ${isSelectedBlock
+                                            ? 'bg-white z-10 [filter:drop-shadow(6px_-4px_8px_rgba(0,0,0,0.25))]'
+                                            : 'bg-[#cdcfd1] pt-2 z-0 [filter:drop-shadow(3px_-2px_4px_rgba(0,0,0,0.12))]'
                                         }`}
                                 >
                                     <h1 className='text-xl'>{block}</h1>
@@ -249,7 +251,7 @@ export default function Live() {
                     const totalFreeCount = theoryRooms.length + labRooms.length;
                     return (
                         <div className='px-[5%]'>
-                            <div className='w-full flex-shrink-0 bg-white relative p-5'>
+                            <div className='w-full flex-shrink-0 bg-white relative p-5 shadow-[0_0_15px_-3px_rgba(0,0,0,0.4)]'>
                                 <div className='flex items-end gap-8 mb-4'>
                                     <div>
                                         <p className='h1 text-3xl font-bold'>{theoryRooms.length + labRooms.length}</p>
@@ -288,7 +290,7 @@ export default function Live() {
 
                                                     {!hideOccupied &&
                                                         allTheory.filter(t => !theoryRooms.includes(t)).map(theory => (
-                                                           <div key={theory}>
+                                                            <div key={theory}>
                                                                 <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded-lg">
                                                                     <p className='text-lg font-bold text-gray-600 tracking-wide'>{theory} </p>
 
@@ -333,7 +335,7 @@ export default function Live() {
 
                                                     {!hideOccupied &&
                                                         allLab.filter(t => !labRooms.includes(t)).map(lab => (
-                                                           <div key={lab}>
+                                                            <div key={lab}>
                                                                 <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded-lg">
                                                                     <p className='text-lg font-bold text-gray-600 tracking-wide'>{lab} </p>
 
