@@ -229,10 +229,7 @@ export default function Live() {
                                 <div
                                     key={block}
                                     onClick={() => setSelectedBlock(block)}
-                                    className={`relative snap-start flex-1 min-w-max text-center px-3 sm:px-5 py-3 cursor-pointer whitespace-nowrap [clip-path:polygon(15px_0%,_100%_0%,_100%_100%,_0%_100%,_0%_15px)] rounded-t-sm filter ${isSelectedBlock
-                                            ? 'bg-white z-10 [filter:drop-shadow(6px_-4px_8px_rgba(0,0,0,0.25))]'
-                                            : 'bg-[#cdcfd1] pt-2 z-0 [filter:drop-shadow(3px_-2px_4px_rgba(0,0,0,0.12))]'
-                                        }`}
+                                    className={`relative snap-start flex-1 min-w-max -ml-2 first:ml-0 text-center px-3 sm:px-5 py-3 cursor-pointer whitespace-nowrap [clip-path:polygon(15px_0%,100%_0%,100%_100%,0%_100%,0%_15px)] rounded-t-sm transition-[transform,background-color,border-color,box-shadow] duration-150 ease-out ${isSelectedBlock ? 'bg-white z-30 font-semibold' : 'bg-[#cdcfd1] z-10 hover:z-20 hover:-translate-y-0.4 hover:bg-zinc-200'}`}
                                 >
                                     <h1 className='text-xl font-display'>{block}</h1>
                                 </div>
@@ -251,7 +248,7 @@ export default function Live() {
                     const totalFreeCount = theoryRooms.length + labRooms.length;
                     return (
                         <div className='px-[5%]'>
-                            <div className='w-full flex-shrink-0 bg-white relative p-5 shadow-[0_0_15px_-3px_rgba(0,0,0,0.4)]'>
+                            <div className='w-full flex-shrink-0 bg-white relative p-5 box-shadow:inset 0 1px 0 rgba(255,255,255,.6);'>
                                 <div className='flex items-end gap-8 mb-6'>
                                     <div>
                                         <p className='h1 text-3xl font-bold'>{theoryRooms.length + labRooms.length}</p>
