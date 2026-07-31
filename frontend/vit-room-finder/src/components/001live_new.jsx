@@ -65,8 +65,8 @@ export default function Live() {
             const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
             const currentDay = days[now.getDay()];
-            //const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-            const currentTimeStr = '09:30';
+            const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            //const currentTimeStr = '09:30';
             setCurDay(currentDay);
             //setCurDay('FRI');
             setCurTime(currentTimeStr);
@@ -229,7 +229,8 @@ export default function Live() {
                                 <div
                                     key={block}
                                     onClick={() => setSelectedBlock(block)}
-                                    className={`relative snap-start flex-1 min-w-max -ml-2 first:ml-0 text-center px-3 sm:px-5 py-3 cursor-pointer whitespace-nowrap [clip-path:polygon(15px_0%,100%_0%,100%_100%,0%_100%,0%_15px)] rounded-t-sm transition-[transform,background-color,border-color,box-shadow] duration-150 ease-out ${isSelectedBlock ? 'bg-white z-30 font-semibold' : 'bg-[#cdcfd1] z-10 hover:z-20 hover:-translate-y-0.4 hover:bg-zinc-200'}`}
+                                    //style={{ zIndex: isSelectedBlock ? 50 : BLOCKS.length - index }}
+                                    className={`relative snap-start flex-1 min-w-max first:ml-0 -ml-5 text-center px-3 sm:px-5 py-3 cursor-pointer whitespace-nowrap border border-zinc-300 border-l-zinc-400 border-b-0 [clip-path:polygon(15px_0%,100%_0%,100%_100%,0%_100%,0%_15px)] rounded-t-sm transition-[transform,background-color,border-color,box-shadow] duration-150 ease-out ${isSelectedBlock ? 'bg-white z-30 font-semibold' : 'bg-[#cdcfd1] z-10 hover:z-20 hover:-translate-y-0.4 hover:bg-zinc-200'}`}
                                 >
                                     <h1 className='text-xl font-display'>{block}</h1>
                                 </div>
