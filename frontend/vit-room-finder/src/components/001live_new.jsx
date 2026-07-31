@@ -222,17 +222,26 @@ export default function Live() {
                         onScroll={handleScroll}
                         className='flex items-end gap-0 overflow-x-auto snap-x snap-mandatory no-scrollbar'
                     >
-                        {BLOCKS.map(block => {
+                        {BLOCKS.map((block, index) => {
                             const isSelectedBlock = selectedBlock === block;
 
                             return (
                                 <div
                                     key={block}
                                     onClick={() => setSelectedBlock(block)}
-                                    //style={{ zIndex: isSelectedBlock ? 50 : BLOCKS.length - index }}
-                                    className={`relative snap-start flex-1 min-w-max first:ml-0 -ml-5 text-center px-3 sm:px-5 py-3 cursor-pointer whitespace-nowrap border border-zinc-300 border-l-zinc-400 border-b-0 [clip-path:polygon(15px_0%,100%_0%,100%_100%,0%_100%,0%_15px)] rounded-t-sm transition-[transform,background-color,border-color,box-shadow] duration-150 ease-out ${isSelectedBlock ? 'bg-white z-30 font-semibold' : 'bg-[#cdcfd1] z-10 hover:z-20 hover:-translate-y-0.4 hover:bg-zinc-200'}`}
+                                    style={{ zIndex: isSelectedBlock ? 30 : BLOCKS.length - index }}
+                                    className={`relative snap-start flex-1 min-w-max text-center px-4 sm:px-6 cursor-pointer whitespace-nowrap border border-zinc-300 border-b-0 border-l-0 rounded-t-md [clip-path:polygon(26px_0%,100%_0%,100%_100%,0%_100%,0%_26px)] transition-[transform,background-color,box-shadow] duration-150 ease-out ${isSelectedBlock
+                                        ? 'bg-white py-4 -mb-px font-semibold shadow-[-2px_0_4px_rgba(0,0,0,0.08),2px_0_4px_rgba(0,0,0,0.08),0_-1px_0_rgba(255,255,255,0.9)] before:absolute before:left-4 before:right-4 before:top-0 before:h-px before:bg-white/80 before:content-[""]'
+                                        : 'bg-zinc-300 py-2.5 shadow-[inset_0_-2px_0_rgba(0,0,0,0.08)] hover:py-3 hover:bg-zinc-100 hover:shadow-[0_4px_0_#18181B] hover:z-40'
+                                        }`}
                                 >
-                                    <h1 className='text-xl font-display'>{block}</h1>
+                                    <span className={`font-display text-xl transition-colors ${isSelectedBlock ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-600 font-medium'}`}>
+                                        {block}
+                                    </span>
+
+                                    {!isSelectedBlock && (
+                                        <div className="absolute right-0 top-0 h-full w-px bg-zinc-400" />
+                                    )}
                                 </div>
                             );
                         })}
@@ -249,7 +258,7 @@ export default function Live() {
                     const totalFreeCount = theoryRooms.length + labRooms.length;
                     return (
                         <div className='px-[5%]'>
-                            <div className='w-full flex-shrink-0 bg-white relative p-5 box-shadow:inset 0 1px 0 rgba(255,255,255,.6);'>
+                            <div className='w-full flex-shrink-0 bg-white relative p-5 -mt-0 box-shadow:inset 0 1px 0 rgba(255,255,255,.6);'>
                                 <div className='flex items-end gap-8 mb-6'>
                                     <div>
                                         <p className='h1 text-3xl font-bold'>{theoryRooms.length + labRooms.length}</p>
@@ -266,8 +275,10 @@ export default function Live() {
                                     <div className='w-full h-[2px] bg-gray-500 mb-4'></div>
                                     <div className="font-medium grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3 mb-4 w-full tracking-wider">
                                         {(hideOccupied || allTheory.length === 0) && theoryRooms.length === 0 ? (
-                                            <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded">
-                                                <p>None</p>
+                                            <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded hover:-translate-y-px">
+                                                <div className="flex items-center gap-1.5 mt-0.5">
+                                                    <p className='text-[10px] font-bold text-gray-500 tracking-wider uppercase'>NONE</p>
+                                                </div>
                                             </div>
                                         ) :
                                             (
@@ -311,8 +322,10 @@ export default function Live() {
                                     <div className='w-full h-[2px] bg-gray-500 mb-4'></div>
                                     <div className="font-medium grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3 mb-4 w-full tracking-wider">
                                         {(hideOccupied || allLab.length === 0) && labRooms.length === 0 ? (
-                                            <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded">
-                                                <p>None</p>
+                                            <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded hover:-translate-y-px">
+                                                <div className="flex items-center gap-1.5 mt-0.5">
+                                                    <p className='text-[10px] font-bold text-gray-500 tracking-wider uppercase'>NONE</p>
+                                                </div>
                                             </div>
                                         ) :
                                             (
