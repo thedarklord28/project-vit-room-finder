@@ -313,15 +313,23 @@ export default function Live() {
                                                         ))}
 
                                                     {!hideOccupied &&
-                                                        allTheory.filter(t => !theoryRooms.includes(t)).map((theory,index) => (
+                                                        allTheory.filter(t => !theoryRooms.includes(t)).map((theory, index) => (
                                                             <div key={theory}>
-                                                                <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded hover:-translate-y-px">
+                                                                <motion.div
+                                                                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                                    transition={{
+                                                                        duration: 0.15,
+                                                                        delay: (theoryRooms.length + index) * 0.01,
+                                                                        ease: [0.2, 0.8, 0.2, 1],
+                                                                    }}
+                                                                    className="animate-room-enter bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded hover:-translate-y-px">
                                                                     <p className='text-lg font-bold text-gray-600 tracking-wide font-display'>{theory} </p>
 
                                                                     <div className="flex items-center gap-1.5 mt-0.5">
                                                                         <p className='text-[10px] font-bold text-gray-500 tracking-wider uppercase'>IN USE</p>
                                                                     </div>
-                                                                </div>
+                                                                </motion.div>
 
                                                             </div>
                                                         ))}
@@ -335,7 +343,11 @@ export default function Live() {
                                 <div>
                                     <h1 className='text-xl mb-2'>LAB</h1>
                                     <div className='w-full h-[2px] bg-gray-500 mb-4'></div>
-                                    <div className="font-medium grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3 mb-4 w-full tracking-wider">
+                                    <motion.div
+                                        key={selectedBlock}
+                                        initial="hidden"
+                                        animate="show"
+                                        className="font-medium grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3 mb-4 w-full tracking-wider">
                                         {(hideOccupied || allLab.length === 0) && labRooms.length === 0 ? (
                                             <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded hover:-translate-y-px">
                                                 <div className="flex items-center gap-1.5 mt-0.5">
@@ -346,29 +358,45 @@ export default function Live() {
                                             (
                                                 <>
                                                     {
-                                                        labRooms.map(lab => (
+                                                        labRooms.map((lab,index) => (
                                                             <div key={lab}>
-                                                                <div className="bg-white border border-gray-400 py-2 px-4 w-full flex flex-col justify-center rounded hover:-translate-y-0.5 hover:border-zinc-500 hover:shadow-[3px_3px_0px_#18181B] transition-[transform,border-color,box-shadow] duration-150 ease-out">
+                                                                <motion.div
+                                                                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                                    transition={{
+                                                                        duration: 0.15,
+                                                                        delay: index * 0.01,
+                                                                        ease: [0.2, 0.8, 0.2, 1],
+                                                                    }}
+                                                                className="bg-white border border-gray-400 py-2 px-4 w-full flex flex-col justify-center rounded hover:-translate-y-0.5 hover:border-zinc-500 hover:shadow-[3px_3px_0px_#18181B] transition-[transform,border-color,box-shadow] duration-150 ease-out">
                                                                     <p className='text-lg font-bold text-gray-900 tracking-wide font-display'>{lab}</p>
 
                                                                     <div className="flex items-center gap-1.5 mt-0.5">
                                                                         <p className='text-[10px] font-bold text-emerald-600 tracking-wider uppercase'>FREE</p>
                                                                     </div>
-                                                                </div>
+                                                                </motion.div>
 
                                                             </div>
                                                         ))}
 
                                                     {!hideOccupied &&
-                                                        allLab.filter(t => !labRooms.includes(t)).map(lab => (
+                                                        allLab.filter(t => !labRooms.includes(t)).map((lab,index) => (
                                                             <div key={lab}>
-                                                                <div className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded">
+                                                                <motion.div
+                                                                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                                    transition={{
+                                                                        duration: 0.15,
+                                                                        delay: (labRooms.length+index) * 0.01,
+                                                                        ease: [0.2, 0.8, 0.2, 1],
+                                                                    }}
+                                                                 className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded">
                                                                     <p className='text-lg font-bold text-gray-600 tracking-wide font-display'>{lab} </p>
 
                                                                     <div className="flex items-center gap-1.5 mt-0.5">
                                                                         <p className='text-[10px] font-bold text-gray-500 tracking-wider uppercase'>IN USE</p>
                                                                     </div>
-                                                                </div>
+                                                                </motion.div>
 
                                                             </div>
                                                         ))}
@@ -376,7 +404,7 @@ export default function Live() {
                                                 </>
                                             )
                                         }
-                                    </div>
+                                    </motion.div>
                                 </div>
                             </div>
                         </div>)
