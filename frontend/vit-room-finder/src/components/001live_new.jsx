@@ -70,10 +70,10 @@ export default function Live() {
             const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
             const currentDay = days[now.getDay()];
-            //const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-            const currentTimeStr = '09:30';
-            //setCurDay(currentDay);
-            setCurDay('FRI');
+            const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            //const currentTimeStr = '09:30';
+            setCurDay(currentDay);
+            //setCurDay('FRI');
             setCurTime(currentTimeStr);
         };
 
