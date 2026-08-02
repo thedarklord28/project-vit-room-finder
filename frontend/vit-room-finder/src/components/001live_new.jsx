@@ -6,6 +6,9 @@ import slotData from "../../rawdata/slotTimings.json"
 import MenuIcon from '@mui/icons-material/Menu';
 
 import { motion } from 'framer-motion';
+import CountUp from '../reactbits/CountUp.jsx'
+
+
 
 export default function Live() {
     const [activeTheorySlot, setActiveTheorySlot] = useState(null);
@@ -67,10 +70,10 @@ export default function Live() {
             const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
             const currentDay = days[now.getDay()];
-            const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-            //const currentTimeStr = '09:30';
-            setCurDay(currentDay);
-            //setCurDay('FRI');
+            //const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            const currentTimeStr = '09:30';
+            //setCurDay(currentDay);
+            setCurDay('FRI');
             setCurTime(currentTimeStr);
         };
 
@@ -263,8 +266,16 @@ export default function Live() {
                             <div className='w-full flex-shrink-0 bg-white relative p-5 -mt-0 box-shadow:inset 0 1px 0 rgba(255,255,255,.6);'>
                                 <div className='flex items-end gap-8 mb-6'>
                                     <div>
-                                        <p className='h1 text-3xl font-bold'>{theoryRooms.length + labRooms.length}</p>
-                                        <p className='text-lg'>FREE</p>
+                                        <CountUp
+                                            from={0}
+                                            to={theoryRooms.length + labRooms.length}
+                                            separator=","
+                                            direction="up"
+                                            duration={1}
+                                            className="count-up-text h1 text-3xl font-bold"
+                                            delay={0}
+                                        />
+                                            <p className='text-lg'>FREE</p>
                                     </div>
                                     <div className='text-gray-700'>
                                         <p className='h1 text-xl'>{allTheory.length + allLab.length}</p>
@@ -358,7 +369,7 @@ export default function Live() {
                                             (
                                                 <>
                                                     {
-                                                        labRooms.map((lab,index) => (
+                                                        labRooms.map((lab, index) => (
                                                             <div key={lab}>
                                                                 <motion.div
                                                                     initial={{ opacity: 0, y: 10, scale: 0.98 }}
@@ -368,7 +379,7 @@ export default function Live() {
                                                                         delay: index * 0.01,
                                                                         ease: [0.2, 0.8, 0.2, 1],
                                                                     }}
-                                                                className="bg-white border border-gray-400 py-2 px-4 w-full flex flex-col justify-center rounded hover:-translate-y-0.5 hover:border-zinc-500 hover:shadow-[3px_3px_0px_#18181B] transition-[transform,border-color,box-shadow] duration-150 ease-out">
+                                                                    className="bg-white border border-gray-400 py-2 px-4 w-full flex flex-col justify-center rounded hover:-translate-y-0.5 hover:border-zinc-500 hover:shadow-[3px_3px_0px_#18181B] transition-[transform,border-color,box-shadow] duration-150 ease-out">
                                                                     <p className='text-lg font-bold text-gray-900 tracking-wide font-display'>{lab}</p>
 
                                                                     <div className="flex items-center gap-1.5 mt-0.5">
@@ -380,17 +391,17 @@ export default function Live() {
                                                         ))}
 
                                                     {!hideOccupied &&
-                                                        allLab.filter(t => !labRooms.includes(t)).map((lab,index) => (
+                                                        allLab.filter(t => !labRooms.includes(t)).map((lab, index) => (
                                                             <div key={lab}>
                                                                 <motion.div
                                                                     initial={{ opacity: 0, y: 10, scale: 0.98 }}
                                                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                                                     transition={{
                                                                         duration: 0.15,
-                                                                        delay: (labRooms.length+index) * 0.01,
+                                                                        delay: (labRooms.length + index) * 0.01,
                                                                         ease: [0.2, 0.8, 0.2, 1],
                                                                     }}
-                                                                 className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded">
+                                                                    className="bg-[#EAECEF] border border-gray-300 py-2 px-4 w-full flex flex-col justify-center rounded">
                                                                     <p className='text-lg font-bold text-gray-600 tracking-wide font-display'>{lab} </p>
 
                                                                     <div className="flex items-center gap-1.5 mt-0.5">
