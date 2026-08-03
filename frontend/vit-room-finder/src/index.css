@@ -43,3 +43,16 @@ body {
 .animate-room-enter {
   animation: roomEnter 280ms cubic-bezier(.2,.8,.2,1) forwards;
 }
+
+.cursor-grid {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.cursor-grid__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
