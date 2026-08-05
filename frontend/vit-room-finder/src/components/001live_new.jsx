@@ -146,9 +146,28 @@ export default function Live() {
 
     return (
         <div className='relative w-full h-screen flex flex-col bg-[#EAECEF] text-[#1A1A1A] overflow-hidden overflow-x-hidden no-scrollbar'>
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                <div style={{ width: '100%', height: '600px', position: 'relative' }}>
+                    <CursorGrid
+                        cellSize={50}
+                        color="#94a3b8"
+                        radius={140}
+                        falloff="smooth"
+                        holdTime={400}
+                        fadeDuration={800}
+                        lineWidth={1.2}
+                        maxOpacity={0.5}
+                        fillOpacity={0}
+                        gridOpacity={0.2}
+                        cellRadius={0}
+                        clickPulse
+                        pulseSpeed={600}
+                    />
+                </div>
+            </div>
 
             <div className='w-full flex flex-shrink-0 p-3.5 px-[5%] gap-2 sm:gap-3 justify-between items-center bg-[#FFFFFF] shadow-md relative z-30'>
-                
+
                 <MenuIcon className='!w-7 !h-7 sm:!w-8 sm:!h-8 text-gray-900 flex-shrink-0'></MenuIcon>
 
                 <div className='flex flex-col items-center justify-center flex-1 min-w-0'>
@@ -217,21 +236,7 @@ export default function Live() {
             <div className='w-full flex-1 overflow-y-auto px-4 py-4 no-scrollbar'>
                 <div className="absolute inset-0 z-0 pointer-events-none w-full h-full">
                     <div style={{ width: '100%', height: '600px', position: 'relative' }}>
-                        <CursorGrid
-                            cellSize={50}
-                            color="#94a3b8"
-                            radius={140}
-                            falloff="smooth"
-                            holdTime={400}
-                            fadeDuration={800}
-                            lineWidth={1.2}
-                            maxOpacity={0.5}
-                            fillOpacity={0}
-                            gridOpacity={0}
-                            cellRadius={0}
-                            clickPulse
-                            pulseSpeed={600}
-                        />
+
                     </div>
                 </div>
                 <div className='w-full flex-shrink-0 relative px-[5%]'>
